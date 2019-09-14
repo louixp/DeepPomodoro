@@ -6,6 +6,8 @@ We chose to use Google Drive to store our training dataset. In order for the pho
 
 We also found that unless you include "export PATH=/usr/local/bin:$PATH" at the beginning of the script, imagesnap will not be recognized. The script first navigates into the folder housing the training data. Then, it calls imagesnap's -w 1.00 command, which waits for a second before proceeding. This is because we sometimes would get blacked out frames for the first few photos as the camera warms up. Then the script calls the -t 0.10 command, which essentially works like a while loop, taking a photo every .1 second, giving it a name with the date and time, and storing it in the current directory (our folder in Google Drive). 
 
+Once you have the two scripts configured, switch between running the focused and distracted scripts as you work and take breaks respectively. Remember, it is your responsibility to end the script - if you don't, it will take photos forever. 
+
 These scripts can be run in the terminal or, if you are using a Mac, the automator tool. Use whichever suits your needs. 
 
 Happy training!
