@@ -11,4 +11,4 @@ We know you are distracted :)
 - Recommend breaks
 
 ## Distraction detection algorithms <a name="algos"></a>
-### Version 1: Image stream -> Landmark detection -> Classification
+### Version 1: Image stream -> Face detection -> Landmark detection -> Classification
