@@ -45,7 +45,7 @@ landmarks_flattened = list(chain.from_iterable(landmarks_list))
 
 # Write landmarks to csv
 with open("landmarks.csv", 'a') as myfile:
-    wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+    wr = csv.writer(myfile, quoting=csv.QUOTE_NONE)
     wr.writerow(landmarks_flattened)
 
 exit()
