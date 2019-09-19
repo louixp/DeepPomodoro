@@ -32,6 +32,12 @@ while True:
     s, img = cam.read()
     if s: imwrite("photo.jpg",img) #save image
 
+    #read and delete photo
+    list_of_files = glob.glob('*') 
+    latest_file = max(list_of_files, key=os.path.getctime)
+    img = cv2.imread(latest_file, 1)
+    os.remove(latest_file)
+
     #run face detector
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces_in_image = detector(img_gray, 0)
