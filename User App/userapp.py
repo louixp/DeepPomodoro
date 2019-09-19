@@ -14,13 +14,7 @@ import tensorflow as tf
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
-model = tf.keras.Sequential([
-    tf.keras.layers.Dense(50, input_shape=(136,)), # input_shape?
-    tf.keras.layers.Dense(10, activation='relu'),
-    tf.keras.layers.Dense(1, activation='sigmoid')
-])
-
-model.load_weights('shittyModel.h5')
+model = tf.keras.models.load_model('shittyModel.h5')
 
 # initialize the camera
 cam = VideoCapture(0)   # 0 -> index of camera
