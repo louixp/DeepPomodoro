@@ -4,6 +4,7 @@ import cv2
 from cv2 import VideoCapture, imwrite
 import dlib
 import csv
+import numpy as np
 import sys
 from itertools import chain 
 import pygame, time
@@ -33,12 +34,6 @@ while True:
     s, img = cam.read()
     if s: imwrite("photo.jpg",img) #save image
 
-    #read and delete photo
-    list_of_files = glob.glob('*') 
-    latest_file = max(list_of_files, key=os.path.getctime)
-    img = cv2.imread(latest_file, 1)
-    os.remove(latest_file)
-
     #run face detector
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces_in_image = detector(img_gray, 0)
@@ -52,8 +47,31 @@ while True:
         for i in range(0, landmarks.num_parts):
             landmarks_list.append((landmarks.part(i).x, landmarks.part(i).y))
 
-    landmarks_list.append((mood, alert))
-    landmarks_flattened = list(chain.from_iterable(landmarks_list)) 
+    nplandmarks = np.asarray(landmarks_list)
+
+    face_x = nplandmarks[::2]
+    face_y = nplandmarks[1::2]
+
+    face_top = np.amin(face_y)
+    face_bottom = np.amax(face_y)
+    face_left = np.amin(face_x)
+    face_right = np.amax(face_x)
+
+    width = face_right - face_left
+    height = face_bottom - face_top
+
+    center_x = (face_right + face_left) / 2
+    center_y = (face_bottom + face_top) / 2
+
+    face_x_normalized = (face_x - center_x) / width
+    face_y_normalized = (face_y - center_y) / height
+
+    toreturn = []
+    toreturn.append(face_x_normalized.flatten())
+    toreturn.append(face_y_normalized.flatten())
+
+    toreturn.append((mood, alert))
+    landmarks_flattened = list(chain.from_iterable(toreturn))
 
     # Write landmarks to csv
     with open("landmarks.csv", 'a') as myfile:
